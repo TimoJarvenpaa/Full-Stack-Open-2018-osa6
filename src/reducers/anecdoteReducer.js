@@ -7,12 +7,12 @@ const anecdotesAtStart = [
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
 
-const getId = () => (100000 * Math.random()).toFixed(0)
+const generateId = () => (100000 * Math.random()).toFixed(0)
 
 const asObject = (anecdote) => {
   return {
     content: anecdote,
-    id: getId(),
+    id: generateId(),
     votes: 0
   }
 }
@@ -28,10 +28,25 @@ const reducer = (store = initialState, action) => {
   }
   if (action.type === 'CREATE') {
 
-    return [...store, { content: action.content, id: getId(), votes: 0 }]
+    return [...store, { content: action.content, id: generateId(), votes: 0 }]
   }
 
   return store
 }
+
+export const anecdoteCreation = (content) => {
+  return {
+    type: 'CREATE',
+    content
+  }
+}
+
+export const voteAnecdote = (id) => {
+  return {
+    type: 'VOTE',
+    id
+  }
+}
+
 
 export default reducer

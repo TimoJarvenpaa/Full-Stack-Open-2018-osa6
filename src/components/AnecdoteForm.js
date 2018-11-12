@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { anecdoteCreation } from '../reducers/anecdoteReducer'
 
 class AnecdoteForm extends React.Component {
   componentDidMount() {
@@ -13,16 +14,14 @@ class AnecdoteForm extends React.Component {
     this.unsubscribe()
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault()
-    const content = e.target.anecdote.value
-    this.context.store.dispatch({
-      type: 'CREATE',
-      content
-    })
-
-    e.target.anecdote.value = ''
+  handleSubmit = (event) => {
+    event.preventDefault()
+    this.context.store.dispatch(
+      anecdoteCreation(event.target.anecdote.value)
+    )
+    event.target.anecdote.value = ''
   }
+
   render() {
     return (
       <div>

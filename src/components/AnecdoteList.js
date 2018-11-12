@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { voteAnecdote } from '../reducers/anecdoteReducer'
 
 class AnecdoteList extends React.Component {
   componentDidMount() {
@@ -11,6 +12,12 @@ class AnecdoteList extends React.Component {
 
   componentWillUnmount() {
     this.unsubscribe()
+  }
+
+  handleClick = (id) => () => {
+    this.context.store.dispatch(
+      voteAnecdote(id)
+    )
   }
 
   render() {
@@ -25,9 +32,7 @@ class AnecdoteList extends React.Component {
             </div>
             <div>
               has {anecdote.votes}
-              <button onClick={() =>
-                this.context.store.dispatch({ type: 'VOTE', id: anecdote.id })
-              }>
+              <button onClick={this.handleClick(anecdote.id)}>
                 vote
               </button>
             </div>
