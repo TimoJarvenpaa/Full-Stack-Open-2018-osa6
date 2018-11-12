@@ -21,7 +21,7 @@ class AnecdoteList extends React.Component {
   }
 
   render() {
-    const anecdotes = this.context.store.getState()
+    const anecdotes = this.context.store.getState().anecdotes
     return (
       <div>
         <h2>Anecdotes</h2>
