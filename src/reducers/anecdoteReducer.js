@@ -1,5 +1,3 @@
-const generateId = () => (100000 * Math.random()).toFixed(0)
-
 const reducer = (state = [], action) => {
   switch (action.type) {
     case 'VOTE': {
@@ -8,7 +6,7 @@ const reducer = (state = [], action) => {
       return [...old, { ...voted, votes: voted.votes + 1 }]
     }
     case 'CREATE':
-      return [...state, { content: action.content, id: generateId(), votes: 0 }]
+      return [...state, action.content]
     case 'INIT_ANECDOTES':
       return action.data
     default:
