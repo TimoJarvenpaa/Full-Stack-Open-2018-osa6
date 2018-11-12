@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
+import { setMessage, resetMessage } from '../reducers/notificationReducer'
 
 class AnecdoteList extends React.Component {
   componentDidMount() {
@@ -14,10 +15,16 @@ class AnecdoteList extends React.Component {
     this.unsubscribe()
   }
 
-  handleClick = (id) => () => {
+  handleClick = (anecdote) => () => {
     this.context.store.dispatch(
-      voteAnecdote(id)
+      voteAnecdote(anecdote.id)
     )
+    this.context.store.dispatch(
+      setMessage(`You voted '${anecdote.content}'`)
+    )
+    setTimeout(() => {
+      this.context.store.dispatch(resetMessage())
+    }, 5000)
   }
 
   render() {
@@ -32,7 +39,7 @@ class AnecdoteList extends React.Component {
             </div>
             <div>
               has {anecdote.votes}
-              <button onClick={this.handleClick(anecdote.id)}>
+              <button onClick={this.handleClick(anecdote)}>
                 vote
               </button>
             </div>
