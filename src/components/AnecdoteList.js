@@ -1,35 +1,20 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
 import { setMessage, resetMessage } from '../reducers/notificationReducer'
 
 class AnecdoteList extends React.Component {
-  componentDidMount() {
-    const { store } = this.context
-    this.unsubscribe = store.subscribe(() =>
-      this.forceUpdate()
-    )
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe()
-  }
-
   handleClick = (anecdote) => () => {
-    this.context.store.dispatch(
-      voteAnecdote(anecdote.id)
-    )
-    this.context.store.dispatch(
-      setMessage(`You voted '${anecdote.content}'`)
-    )
+    this.props.voteAnecdote(anecdote.id)
+    this.props.setMessage(`You voted '${anecdote.content}'`)
     setTimeout(() => {
-      this.context.store.dispatch(resetMessage())
+      this.props.resetMessage()
     }, 5000)
   }
 
   render() {
     const anecdotesToShow = () => {
-      const { anecdotes, filter } = this.context.store.getState()
+      const { anecdotes, filter } = this.props
       return anecdotes.filter(anecdote => anecdote.content.toUpperCase().includes(filter.toUpperCase()))
     }
     return (
@@ -53,8 +38,20 @@ class AnecdoteList extends React.Component {
   }
 }
 
-AnecdoteList.contextTypes = {
-  store: PropTypes.object
+const mapStateToProps = (state) => {
+  return {
+    anecdotes: state.anecdotes,
+    filter: state.filter
+  }
 }
 
-export default AnecdoteList
+const mapDispatchToProps = {
+  voteAnecdote,
+  setMessage,
+  resetMessage
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AnecdoteList)
