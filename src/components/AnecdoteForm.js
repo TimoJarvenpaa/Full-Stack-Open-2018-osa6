@@ -11,7 +11,7 @@ class AnecdoteForm extends React.Component {
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
     const newAnecdote = await anecdoteService.createNew(content)
-    console.log(newAnecdote)
+    //console.log(newAnecdote)
     this.props.anecdoteCreation(newAnecdote)
     this.props.setMessage(`You added '${content}'`)
     setTimeout(() => {
