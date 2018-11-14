@@ -10,16 +10,30 @@ const NotificationReducer = (state = null, action) => {
   }
 }
 
-export const setMessage = (message) => {
+const setMessage = (message, id) => {
   return {
     type: 'SET_NOTIFICATION',
-    message
+    message,
+    id
   }
 }
 
-export const resetMessage = () => {
+const resetMessage = (id) => {
   return {
-    type: 'RESET_NOTIFICATION'
+    type: 'RESET_NOTIFICATION',
+    id
+  }
+}
+
+let nextNotificationId = 0
+export const notify = (message, time) => {
+  return (dispatch) => {
+    const id = nextNotificationId++
+    dispatch(setMessage(message, id))
+
+    setTimeout(() => {
+      dispatch(resetMessage(id))
+    }, time * 1000)
   }
 }
 
