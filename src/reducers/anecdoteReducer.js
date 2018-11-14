@@ -8,7 +8,7 @@ const reducer = (state = [], action) => {
       return [...old, { ...voted, votes: voted.votes + 1 }]
     }
     case 'CREATE':
-      return [...state, action.content]
+      return [...state, action.data]
     case 'INIT_ANECDOTES':
       return action.data
     default:
@@ -17,16 +17,22 @@ const reducer = (state = [], action) => {
 }
 
 export const anecdoteCreation = (content) => {
-  return {
-    type: 'CREATE',
-    content
+  return async (dispatch) => {
+    const newAnecdote = await anecdoteService.createNew(content)
+    dispatch({
+      type: 'CREATE',
+      data: newAnecdote
+    })
   }
 }
 
-export const voteAnecdote = (id) => {
-  return {
-    type: 'VOTE',
-    id
+export const voteAnecdote = (anecdote) => {
+  return async (dispatch) => {
+    const voted = await anecdoteService.update({ ...anecdote, votes: anecdote.votes + 1 })
+    dispatch({
+      type: 'VOTE',
+      id: voted.id
+    })
   }
 }
 
