@@ -1,19 +1,35 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, NavLink } from 'react-router-dom'
 
-const Menu = () => (
-  <div>
-    <Link to="/">anecdotes</Link> &nbsp;
-    <Link to="/create">create new</Link> &nbsp;
-    <Link to="/about">about</Link>&nbsp;
-  </div>
-)
+const Menu = () => {
+  const menuStyle = {
+    backgroundColor: 'lightblue',
+    paddingTop: 10,
+    paddingBottom: 10,
+    display: 'inline-block'
+  }
+
+  const activeStyle = {
+    fontWeight: 'bold',
+    color: 'orange',
+    backgroundColor: 'grey',
+    paddingTop: 10,
+    paddingBottom: 10
+  }
+  return (
+    <div style={menuStyle}>
+      <NavLink exact to="/" activeStyle={activeStyle}>anecdotes</NavLink> &nbsp;
+      <NavLink to="/create" activeStyle={activeStyle}>create new</NavLink> &nbsp;
+      <NavLink to="/about" activeStyle={activeStyle}>about</NavLink>
+    </div>
+  )
+}
 
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id}><Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link></li>)}
+      {anecdotes.map(anecdote => <li key={anecdote.id}><NavLink to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</NavLink></li>)}
     </ul>
   </div>
 )
