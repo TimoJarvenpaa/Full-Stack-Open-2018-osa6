@@ -122,7 +122,7 @@ class App extends React.Component {
           id: '2'
         }
       ],
-      notification: ''
+      notification: null
     }
   }
 
@@ -135,7 +135,7 @@ class App extends React.Component {
     })
     setTimeout(() => {
       this.setState({
-        notification: ''
+        notification: null
       })
     }, 10000);
   }
@@ -163,10 +163,10 @@ class App extends React.Component {
           <div>
             <h1>Software anecdotes</h1>
             <Menu />
-            <div>{this.state.notification}</div>
+            <Notification message={this.state.notification} />
             <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes} />} />
             <Route path="/about" render={() => <About />} />
-            <Route path="/create" render={({history}) =>
+            <Route path="/create" render={({ history }) =>
               <CreateNew addNew={this.addNew} history={history} />}
             />
             <Route exact path="/anecdotes/:id" render={({ match }) =>
@@ -178,6 +178,27 @@ class App extends React.Component {
       </div>
     )
   }
+}
+
+const Notification = ({ message }) => {
+  const notificationStyle = {
+    color: 'black',
+    background: 'lightgreen',
+    fontSize: 20,
+    borderStyle: 'solid',
+    borderRadius: 12,
+    padding: 10,
+    marginBottom: 10
+  }
+
+  if (message === null) {
+    return null
+  }
+  return (
+    <div style={notificationStyle}>
+      {message}
+    </div>
+  )
 }
 
 export default App
