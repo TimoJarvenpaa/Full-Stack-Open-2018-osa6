@@ -1,29 +1,42 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, NavLink, Link } from 'react-router-dom'
-import { Container, Table, Grid, Image } from 'semantic-ui-react'
+import { Container, Table, Grid, Image, Form, Button, Message, Menu, Segment } from 'semantic-ui-react'
 import dijsktra from './Dijkstra.jpg'
 
-const Menu = () => {
-  const menuStyle = {
-    backgroundColor: 'lightblue',
-    paddingTop: 10,
-    paddingBottom: 10,
-    display: 'inline-block'
-  }
+const NavMenu = () => {
+  // const menuStyle = {
+  //   backgroundColor: 'lightblue',
+  //   paddingTop: 10,
+  //   paddingBottom: 10,
+  //   display: 'inline-block'
+  // }
 
-  const activeStyle = {
-    fontWeight: 'bold',
-    color: 'orange',
-    backgroundColor: 'grey',
-    paddingTop: 10,
-    paddingBottom: 10
-  }
+  // const activeStyle = {
+  //   fontWeight: 'bold',
+  //   color: 'orange',
+  //   backgroundColor: 'grey',
+  //   paddingTop: 10,
+  //   paddingBottom: 10
+  // }
+  // return (
+  //   <div style={menuStyle}>
+  //     <NavLink exact to="/" activeStyle={activeStyle}>anecdotes</NavLink> &nbsp;
+  //     <NavLink to="/create" activeStyle={activeStyle}>create new</NavLink> &nbsp;
+  //     <NavLink to="/about" activeStyle={activeStyle}>about</NavLink>
+  //   </div>
+  // )
   return (
-    <div style={menuStyle}>
-      <NavLink exact to="/" activeStyle={activeStyle}>anecdotes</NavLink> &nbsp;
-      <NavLink to="/create" activeStyle={activeStyle}>create new</NavLink> &nbsp;
-      <NavLink to="/about" activeStyle={activeStyle}>about</NavLink>
-    </div>
+    <Menu inverted>
+      <Menu.Item link>
+        <NavLink exact to="/">anecdotes</NavLink>
+      </Menu.Item>
+      <Menu.Item link>
+        <NavLink to="/create">create new</NavLink>
+      </Menu.Item>
+      <Menu.Item link>
+        <NavLink to="/about">about</NavLink>
+      </Menu.Item>
+    </Menu>
   )
 }
 
@@ -48,38 +61,40 @@ const Anecdote = ({ anecdote }) => {
   return (
     <div>
       <h2>{anecdote.content} by {anecdote.author}</h2>
-      <div>has {anecdote.votes} votes</div>
-      <div>for more info see <a href={anecdote.info}>{anecdote.info}</a></div>
+      <Segment inverted>has {anecdote.votes} votes</Segment>
+      <Segment inverted color='orange' secondary>for more info see <a href={anecdote.info}>{anecdote.info}</a></Segment>
     </div>
   )
 }
 
 const About = () => (
   <Grid divided='vertically'>
-  <Grid.Row columns={2}>
-    <Grid.Column>
-    <h2>About anecdote app</h2>
-    <p>According to Wikipedia:</p>
+    <Grid.Row columns={2}>
+      <Grid.Column>
+        <h2>About anecdote app</h2>
+        <p>According to Wikipedia:</p>
 
-    <em>An anecdote is a brief, revealing account of an individual person or an incident.
-      Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself,
-      such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative.
+        <em>An anecdote is a brief, revealing account of an individual person or an incident.
+          Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself,
+          such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative.
       An anecdote is "a story with a point."</em>
 
-    <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
-    </Grid.Column>
-    <Grid.Column>
-      <Image src={dijsktra} alt="Edsger Dijkstra" width='200' />
-    </Grid.Column>
+        <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
+      </Grid.Column>
+      <Grid.Column>
+        <Image src={dijsktra} alt="Edsger Dijkstra" width='200' />
+      </Grid.Column>
     </Grid.Row>
   </Grid>
 )
 
 const Footer = () => (
   <div>
-    Anecdote app for <a href='https://courses.helsinki.fi/fi/TKT21009/121540749'>Full Stack -sovelluskehitys</a>.
-
-    See <a href='https://github.com/mluukkai/routed-anecdotes'>https://github.com/mluukkai/routed-anecdotes</a> for the source code.
+    <Segment secondary>
+      Anecdote app for <a href='https://courses.helsinki.fi/fi/TKT21009/121540749'>Full Stack -sovelluskehitys</a>.
+  
+      See <a href='https://github.com/mluukkai/routed-anecdotes'>https://github.com/mluukkai/routed-anecdotes</a> for the source code.
+    </Segment>
   </div>
 )
 
@@ -113,21 +128,21 @@ class CreateNew extends React.Component {
     return (
       <div>
         <h2>create a new anecdote</h2>
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            content
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Field>
+            <label>content</label>
             <input name='content' value={this.state.content} onChange={this.handleChange} />
-          </div>
-          <div>
-            author
+          </Form.Field>
+          <Form.Field>
+            <label>author</label>
             <input name='author' value={this.state.author} onChange={this.handleChange} />
-          </div>
-          <div>
-            url for more info
+          </Form.Field>
+          <Form.Field>
+            <label>url for more info</label>
             <input name='info' value={this.state.info} onChange={this.handleChange} />
-          </div>
-          <button>create</button>
-        </form>
+          </Form.Field>
+          <Button type='submit'>create</Button>
+        </Form>
       </div>
     )
 
@@ -192,46 +207,51 @@ class App extends React.Component {
   render() {
     return (
       <Container>
-          <Router>
-            <div>
-              <h1>Software anecdotes</h1>
-              <Menu />
-              <Notification message={this.state.notification} />
-              <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes} />} />
-              <Route path="/about" render={() => <About />} />
-              <Route path="/create" render={({ history }) =>
-                <CreateNew addNew={this.addNew} history={history} />}
-              />
-              <Route exact path="/anecdotes/:id" render={({ match }) =>
-                <Anecdote anecdote={this.anecdoteById(match.params.id)} />}
-              />
-              <Footer />
-            </div>
-          </Router>
+        <Router>
+          <div>
+            <h1>Software anecdotes</h1>
+            <NavMenu />
+            {(this.state.notification &&
+              <Message success>
+                {this.state.notification}
+              </Message>
+            )}
+            {/* <Notification message={this.state.notification} /> */}
+            <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes} />} />
+            <Route path="/about" render={() => <About />} />
+            <Route path="/create" render={({ history }) =>
+              <CreateNew addNew={this.addNew} history={history} />}
+            />
+            <Route exact path="/anecdotes/:id" render={({ match }) =>
+              <Anecdote anecdote={this.anecdoteById(match.params.id)} />}
+            />
+            <Footer />
+          </div>
+        </Router>
       </Container>
     )
   }
 }
 
-const Notification = ({ message }) => {
-  const notificationStyle = {
-    color: 'black',
-    background: 'lightgreen',
-    fontSize: 20,
-    borderStyle: 'solid',
-    borderRadius: 12,
-    padding: 10,
-    marginBottom: 10
-  }
+// const Notification = ({ message }) => {
+//   const notificationStyle = {
+//     color: 'black',
+//     background: 'lightgreen',
+//     fontSize: 20,
+//     borderStyle: 'solid',
+//     borderRadius: 12,
+//     padding: 10,
+//     marginBottom: 10
+//   }
 
-  if (message === null) {
-    return null
-  }
-  return (
-    <div style={notificationStyle}>
-      {message}
-    </div>
-  )
-}
+//   if (message === null) {
+//     return null
+//   }
+//   return (
+//     <div style={notificationStyle}>
+//       {message}
+//     </div>
+//   )
+// }
 
 export default App
