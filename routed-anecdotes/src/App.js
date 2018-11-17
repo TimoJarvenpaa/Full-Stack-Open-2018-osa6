@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, NavLink, Link } from 'react-router-dom'
-import { Container, Table } from 'semantic-ui-react'
+import { Container, Table, Grid, Image } from 'semantic-ui-react'
+import dijsktra from './Dijkstra.jpg'
 
 const Menu = () => {
   const menuStyle = {
@@ -54,7 +55,9 @@ const Anecdote = ({ anecdote }) => {
 }
 
 const About = () => (
-  <div>
+  <Grid divided='vertically'>
+  <Grid.Row columns={2}>
+    <Grid.Column>
     <h2>About anecdote app</h2>
     <p>According to Wikipedia:</p>
 
@@ -64,7 +67,12 @@ const About = () => (
       An anecdote is "a story with a point."</em>
 
     <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
-  </div>
+    </Grid.Column>
+    <Grid.Column>
+      <Image src={dijsktra} alt="Edsger Dijkstra" width='200' />
+    </Grid.Column>
+    </Grid.Row>
+  </Grid>
 )
 
 const Footer = () => (
