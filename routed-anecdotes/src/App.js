@@ -73,6 +73,7 @@ class CreateNew extends React.Component {
       info: this.state.info,
       votes: 0
     })
+    this.props.history.push('/')
   }
 
   render() {
@@ -127,7 +128,16 @@ class App extends React.Component {
 
   addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
-    this.setState({ anecdotes: this.state.anecdotes.concat(anecdote) })
+    const notification = `a new anecdote '${anecdote.content}' was added!`
+    this.setState({
+      anecdotes: this.state.anecdotes.concat(anecdote),
+      notification
+    })
+    setTimeout(() => {
+      this.setState({
+        notification: ''
+      })
+    }, 10000);
   }
 
   anecdoteById = (id) =>
@@ -153,9 +163,12 @@ class App extends React.Component {
           <div>
             <h1>Software anecdotes</h1>
             <Menu />
+            <div>{this.state.notification}</div>
             <Route exact path="/" render={() => <AnecdoteList anecdotes={this.state.anecdotes} />} />
             <Route path="/about" render={() => <About />} />
-            <Route path="/create" render={() => <CreateNew addNew={this.addNew} />} />
+            <Route path="/create" render={({history}) =>
+              <CreateNew addNew={this.addNew} history={history} />}
+            />
             <Route exact path="/anecdotes/:id" render={({ match }) =>
               <Anecdote anecdote={this.anecdoteById(match.params.id)} />}
             />
